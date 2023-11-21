@@ -9,3 +9,5 @@ export const STAGE = {
     P2_START_X: 250,
 }
 
+export const GRAVITY = 1
+

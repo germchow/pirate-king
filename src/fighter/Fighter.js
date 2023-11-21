@@ -1,14 +1,15 @@
-import { isKeyDown } from "../InputHandler.js"
+import { backwardPress, forwardPress, upPress, } from "../Control.js";
 import { FighterState } from "../constants/fighter.js"
-import { STAGE } from "../constants/game.js"
+import { GRAVITY, STAGE } from "../constants/game.js"
 
 export class Character {
-    constructor(name, x, y) {
+    constructor(name, playerNumber, x, y) {
         this.name = name
+        this.playerNumber = playerNumber;
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
-        this.gravity = 1
+        this.direction = 1
 
         this.sprites = new Image()
         this.spriteFrames = {}
@@ -23,13 +24,13 @@ export class Character {
                     this.velocity.x = 0
                 },
                 updateState: () => {
-                    if (isKeyDown('KeyW') || this.y < STAGE.FLOOR_Y) {
+                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (isKeyDown('KeyA')) {
+                    if (backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.WALK_BACKWARD)
                     }
-                    if (isKeyDown('KeyD')) {
+                    if (forwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.WALK_FORWARD)
                     }
                 }
@@ -39,10 +40,10 @@ export class Character {
                     this.velocity.x = 2
                 },
                 updateState: () => {
-                    if (isKeyDown('KeyW') || this.y < STAGE.FLOOR_Y) {
+                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (!isKeyDown('KeyD')) {
+                    if (!forwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.IDLE)
                     }
                 }
@@ -52,10 +53,10 @@ export class Character {
                     this.velocity.x = -2
                 },
                 updateState: () => {
-                    if (isKeyDown('KeyW') || this.y < STAGE.FLOOR_Y) {
+                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (!isKeyDown('KeyA')) {
+                    if (!backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.IDLE)
                     }
                 }
@@ -69,7 +70,7 @@ export class Character {
                     if (this.y >= STAGE.FLOOR_Y) {
                         this.changeState(FighterState.IDLE)
                     }
-                    this.velocity.y += this.gravity
+                    this.velocity.y += GRAVITY
                 }
             }
         }
@@ -83,9 +84,19 @@ export class Character {
         this.states[this.currentState].enterState()
     }
 
-    update() {
+    update(otherPlayer) {
+        console.log(this.name, this.direction)
         this.states[this.currentState].updateState()
-        this.x += this.velocity.x
+
+        if (this.currentState != FighterState.JUMP) {
+            if (this.x < otherPlayer.x) {
+                this.direction = 1
+            } else {
+                this.direction = -1
+            }
+        }
+
+        this.x += this.velocity.x * this.direction
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
         
         this.framesElapsed++

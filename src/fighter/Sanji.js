@@ -2,8 +2,8 @@ import { FighterState } from "../constants/fighter.js";
 import { Character } from "./Fighter.js";
 
 export class Sanji extends Character {
-    constructor(x, y) {
-        super("Sanji", x, y)
+    constructor(playerNumber, x, y) {
+        super("Sanji", playerNumber, x, y)
         this.sprites = document.querySelector("img[alt='sanji']")
         this.spriteFrames = {
             'walk_1': [[0, 0, 59, 90], [30, 90]],
