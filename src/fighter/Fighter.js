@@ -132,10 +132,6 @@ export class Character {
 
     draw(context) {
         const currentAnimation = this.animations[this.direction][this.currentState]
-        console.log(this.currentState)
-        console.log(currentAnimation)
-        console.log(this.animationFrameIndex)
-        console.log(currentAnimation[this.animationFrameIndex])
         const [
             [x, y, width, height],
             [anchorX, anchorY]
