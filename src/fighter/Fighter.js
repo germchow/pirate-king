@@ -1,5 +1,5 @@
 import { backwardPress, forwardPress, upPress, } from "../Control.js";
-import { FighterState } from "../constants/fighter.js"
+import { FighterDirection, FighterState } from "../constants/fighter.js"
 import { GRAVITY, STAGE } from "../constants/game.js"
 
 export class Character {
@@ -9,14 +9,14 @@ export class Character {
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
-        this.direction = 1
+        this.direction = FighterDirection.RIGHT
 
         this.sprites = new Image()
         this.spriteFrames = {}
         this.animations = {}
         this.animationFrameIndex = 0
         this.framesElapsed = 0
-        this.framesHold = 5
+        this.framesHold = 10
 
         this.states = {
             [FighterState.IDLE]: {
@@ -27,36 +27,36 @@ export class Character {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (backwardPress(this.playerNumber, this.direction)) {
+                    else if (backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.WALK_BACKWARD)
                     }
-                    if (forwardPress(this.playerNumber, this.direction)) {
+                    else if (forwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.WALK_FORWARD)
                     }
                 }
             },
             [FighterState.WALK_FORWARD]: {
                 enterState: () => {
-                    this.velocity.x = 2
+                    this.velocity.x = this.correctVelocityDirection(2)
                 },
                 updateState: () => {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (!forwardPress(this.playerNumber, this.direction)) {
+                    else if (!forwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.IDLE)
                     }
                 }
             },
             [FighterState.WALK_BACKWARD]: {
                 enterState: () => {
-                    this.velocity.x = -2
+                    this.velocity.x = this.correctVelocityDirection(-2)
                 },
                 updateState: () => {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FighterState.JUMP)
                     }
-                    if (!backwardPress(this.playerNumber, this.direction)) {
+                    else if (!backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FighterState.IDLE)
                     }
                 }
@@ -64,7 +64,7 @@ export class Character {
             [FighterState.JUMP]: {
                 enterState: () => {
                     this.y -= 1
-                    this.velocity.y = -12
+                    this.velocity.y = -13
                 },
                 updateState: () => {
                     if (this.y >= STAGE.FLOOR_Y) {
@@ -84,26 +84,36 @@ export class Character {
         this.states[this.currentState].enterState()
     }
 
-    update(otherPlayer) {
-        console.log(this.name, this.direction)
-        this.states[this.currentState].updateState()
+    correctVelocityDirection(velocity){
+        if (this.direction == FighterDirection.RIGHT) {
+            return velocity
+        } else {
+            return -velocity
+        }
+    }
 
-        if (this.currentState != FighterState.JUMP) {
+    updateDirection(otherPlayer) {
+        if (this.currentState != FighterState.JUMP && otherPlayer.currentState != FighterState.JUMP) {
             if (this.x < otherPlayer.x) {
-                this.direction = 1
+                this.direction = FighterDirection.RIGHT
             } else {
-                this.direction = -1
+                this.direction = FighterDirection.LEFT
             }
         }
+    }
 
-        this.x += this.velocity.x * this.direction
+    update(otherPlayer) {
+        this.updateDirection(otherPlayer)
+        this.states[this.currentState].updateState()
+
+        this.x += this.velocity.x
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
         
         this.framesElapsed++
         if (this.framesElapsed % this.framesHold == 0) {
             this.framesElapsed == 0
             this.animationFrameIndex++
-            if (this.animationFrameIndex >= this.animations[this.currentState].length) {
+            if (this.animationFrameIndex >= this.animations[this.direction][this.currentState].length) {
                 this.animationFrameIndex = 0
             }
         }
@@ -121,7 +131,11 @@ export class Character {
     }
 
     draw(context) {
-        const currentAnimation = this.animations[this.currentState]
+        const currentAnimation = this.animations[this.direction][this.currentState]
+        console.log(this.currentState)
+        console.log(currentAnimation)
+        console.log(this.animationFrameIndex)
+        console.log(currentAnimation[this.animationFrameIndex])
         const [
             [x, y, width, height],
             [anchorX, anchorY]

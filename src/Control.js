@@ -1,8 +1,9 @@
 import { isKeyDown } from "./InputHandler.js";
+import { FighterDirection } from "./constants/fighter.js";
 
 export function forwardPress(playerNum, direction) {
     if (playerNum == 1) {
-        if (direction == 1) {
+        if (direction == FighterDirection.RIGHT) {
             return isKeyDown('KeyD')
         } else {
             return isKeyDown('KeyA')
@@ -10,7 +11,7 @@ export function forwardPress(playerNum, direction) {
         
     }
     else {
-        if (direction == 1) {
+        if (direction == FighterDirection.RIGHT) {
             return isKeyDown('ArrowRight')
         } else {
             return isKeyDown('ArrowLeft')
@@ -20,14 +21,14 @@ export function forwardPress(playerNum, direction) {
 
 export function backwardPress(playerNum, direction) {
     if (playerNum == 1) {
-        if (direction == 1) {
+        if (direction == FighterDirection.RIGHT) {
             return isKeyDown('KeyA')
         } else {
             return isKeyDown('KeyD')
         }
     }
     else {
-        if (direction == 1) {
+        if (direction == FighterDirection.RIGHT) {
             return isKeyDown('ArrowLeft')
         } else {
             return isKeyDown('ArrowRight')
