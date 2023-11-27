@@ -9,3 +9,9 @@ export const FighterDirection = {
     RIGHT: 'right',
     LEFT: 'left',
 }
+
+export const HurtBox = {
+    IDLE: [],
+    WALK: [],
+    JUMP: [],
+}

@@ -64,7 +64,7 @@ export class Character {
             [FighterState.JUMP]: {
                 enterState: () => {
                     this.y -= 1
-                    this.velocity.y = -13
+                    this.velocity.y = -12
                 },
                 updateState: () => {
                     if (this.y >= STAGE.FLOOR_Y) {
@@ -80,6 +80,7 @@ export class Character {
 
     changeState(state) {
         this.animationFrameIndex = 0
+        this.framesElapsed = 0
         this.currentState = state
         this.states[this.currentState].enterState()
     }
