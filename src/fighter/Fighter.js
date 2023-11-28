@@ -1,5 +1,5 @@
-import { backwardPress, forwardPress, groundAttackPress, upPress, } from "../Control.js";
-import { FighterDirection, FighterState } from "../constants/fighter.js"
+import { backwardPress, forwardPress, groundAttackPress, upPress, } from "../util/Control.js";
+import { FIGHTERDIRECTION, FIGHTERSTATE } from "../constants/fighter.js"
 import { GRAVITY, STAGE } from "../constants/game.js"
 
 export class Character {
@@ -9,7 +9,7 @@ export class Character {
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
-        this.direction = FighterDirection.RIGHT
+        this.direction = FIGHTERDIRECTION.RIGHT
 
         this.sprites = new Image()
         this.spriteFrames = {}
@@ -19,80 +19,80 @@ export class Character {
         this.framesHold = 10
 
         this.states = {
-            [FighterState.IDLE]: {
+            [FIGHTERSTATE.IDLE]: {
                 enterState: () => {
                     this.velocity.x = 0
                 },
                 updateState: () => {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
-                        this.changeState(FighterState.JUMP)
+                        this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (backwardPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.WALK_BACKWARD)
+                        this.changeState(FIGHTERSTATE.WALK_BACKWARD)
                     }
                     else if (forwardPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.WALK_FORWARD)
+                        this.changeState(FIGHTERSTATE.WALK_FORWARD)
                     }
-                    else if (groundAttackPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.GROUND_ATTACK)
+                    else if (groundAttackPress(this.playerNumber)) {
+                        this.changeState(FIGHTERSTATE.GROUND_ATTACK)
                     }
                 }
             },
-            [FighterState.WALK_FORWARD]: {
+            [FIGHTERSTATE.WALK_FORWARD]: {
                 enterState: () => {
                     this.velocity.x = this.correctVelocityDirection(2)
                 },
                 updateState: () => {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
-                        this.changeState(FighterState.JUMP)
+                        this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (!forwardPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.IDLE)
+                        this.changeState(FIGHTERSTATE.IDLE)
                     }
                     else if (groundAttackPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.GROUND_ATTACK)
+                        this.changeState(FIGHTERSTATE.GROUND_ATTACK)
                     }
                 }
             },
-            [FighterState.WALK_BACKWARD]: {
+            [FIGHTERSTATE.WALK_BACKWARD]: {
                 enterState: () => {
                     this.velocity.x = this.correctVelocityDirection(-2)
                 },
                 updateState: () => {
                     if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
-                        this.changeState(FighterState.JUMP)
+                        this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (!backwardPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.IDLE)
+                        this.changeState(FIGHTERSTATE.IDLE)
                     }
                     else if (groundAttackPress(this.playerNumber, this.direction)) {
-                        this.changeState(FighterState.GROUND_ATTACK)
+                        this.changeState(FIGHTERSTATE.GROUND_ATTACK)
                     }
                 }
             },
-            [FighterState.JUMP]: {
+            [FIGHTERSTATE.JUMP]: {
                 enterState: () => {
                     this.y -= 1
                     this.velocity.y = -12
                 },
                 updateState: () => {
                     if (this.y >= STAGE.FLOOR_Y) {
-                        this.changeState(FighterState.IDLE)
+                        this.changeState(FIGHTERSTATE.IDLE)
                     }
                     this.velocity.y += GRAVITY
                 }
             },
-            [FighterState.GROUND_ATTACK]: {
+            [FIGHTERSTATE.GROUND_ATTACK]: {
                 enterState: () => {
                 },
                 updateState: () => {
                     if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
-                        this.changeState(FighterState.IDLE)
+                        this.changeState(FIGHTERSTATE.IDLE)
                     }
                 }
             }
         }
-        this.currentState = FighterState.IDLE
+        this.currentState = FIGHTERSTATE.IDLE
         
     }
 
@@ -104,7 +104,7 @@ export class Character {
     }
 
     correctVelocityDirection(velocity){
-        if (this.direction == FighterDirection.RIGHT) {
+        if (this.direction == FIGHTERDIRECTION.RIGHT) {
             return velocity
         } else {
             return -velocity
@@ -112,11 +112,11 @@ export class Character {
     }
 
     updateDirection(otherPlayer) {
-        if (this.currentState != FighterState.JUMP && otherPlayer.currentState != FighterState.JUMP) {
+        if (this.currentState != FIGHTERSTATE.JUMP && otherPlayer.currentState != FIGHTERSTATE.JUMP) {
             if (this.x < otherPlayer.x) {
-                this.direction = FighterDirection.RIGHT
+                this.direction = FIGHTERDIRECTION.RIGHT
             } else {
-                this.direction = FighterDirection.LEFT
+                this.direction = FIGHTERDIRECTION.LEFT
             }
         }
     }
@@ -139,7 +139,7 @@ export class Character {
         }
     }
 
-    drawDebug(context) {
+    drawDebug(context, hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight) {
         context.lineWidth = 2
         context.beginPath()
         context.strokeStyle = 'green'
@@ -148,15 +148,21 @@ export class Character {
         context.moveTo(this.x, this.y - 4)
         context.lineTo(this.x, this.y + 4)
         context.stroke()
+
+        context.beginPath()
+        context.strokeStyle = 'lime'
+        context.rect(hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight)
+        context.stroke()
     }
 
     draw(context) {
         const currentAnimation = this.animations[this.direction][this.currentState]
         const [
             [x, y, width, height],
-            [anchorX, anchorY]
+            [anchorX, anchorY],
+            [hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight]
         ] = this.spriteFrames[currentAnimation[this.animationFrameIndex]]
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
-        this.drawDebug(context)
+        this.drawDebug(context, this.x - anchorX + hurtboxX, this.y - anchorY + hurtboxY, hurtboxWidth, hurtboxHeight)
     }
 }

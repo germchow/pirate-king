@@ -1,4 +1,4 @@
-export const FighterState = {
+export const FIGHTERSTATE = {
     IDLE: 'idle',
     WALK_FORWARD: 'walk_forward',
     WALK_BACKWARD: 'walk_backward',
@@ -7,13 +7,7 @@ export const FighterState = {
 
 }
 
-export const FighterDirection = {
+export const FIGHTERDIRECTION = {
     RIGHT: 'right',
     LEFT: 'left',
-}
-
-export const HurtBox = {
-    IDLE: [],
-    WALK: [],
-    JUMP: [],
 }

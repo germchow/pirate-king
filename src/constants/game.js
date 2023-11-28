@@ -9,5 +9,10 @@ export const STAGE = {
     P2_START_X: 250,
 }
 
+export const PLAYERS = {
+    PLAYER_ONE: 1,
+    PLAYER_TWO: 2,
+}
+
 export const GRAVITY = 0.75
 

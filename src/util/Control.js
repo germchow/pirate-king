@@ -1,9 +1,10 @@
 import { isKeyDown } from "./InputHandler.js";
-import { FighterDirection } from "./constants/fighter.js";
+import { FIGHTERDIRECTION } from "../constants/fighter.js";
+import { PLAYERS } from "../constants/game.js";
 
 export function forwardPress(playerNum, direction) {
-    if (playerNum == 1) {
-        if (direction == FighterDirection.RIGHT) {
+    if (playerNum == PLAYERS.PLAYER_ONE) {
+        if (direction == FIGHTERDIRECTION.RIGHT) {
             return isKeyDown('KeyD')
         } else {
             return isKeyDown('KeyA')
@@ -11,7 +12,7 @@ export function forwardPress(playerNum, direction) {
         
     }
     else {
-        if (direction == FighterDirection.RIGHT) {
+        if (direction == FIGHTERDIRECTION.RIGHT) {
             return isKeyDown('ArrowRight')
         } else {
             return isKeyDown('ArrowLeft')
@@ -20,15 +21,15 @@ export function forwardPress(playerNum, direction) {
 }
 
 export function backwardPress(playerNum, direction) {
-    if (playerNum == 1) {
-        if (direction == FighterDirection.RIGHT) {
+    if (playerNum == PLAYERS.PLAYER_ONE) {
+        if (direction == FIGHTERDIRECTION.RIGHT) {
             return isKeyDown('KeyA')
         } else {
             return isKeyDown('KeyD')
         }
     }
     else {
-        if (direction == FighterDirection.RIGHT) {
+        if (direction == FIGHTERDIRECTION.RIGHT) {
             return isKeyDown('ArrowLeft')
         } else {
             return isKeyDown('ArrowRight')
@@ -37,7 +38,7 @@ export function backwardPress(playerNum, direction) {
 }
 
 export function upPress(playerNum) {
-    if (playerNum == 1) {
+    if (playerNum == PLAYERS.PLAYER_ONE) {
         return isKeyDown('KeyW')
     }
     else {
@@ -45,8 +46,8 @@ export function upPress(playerNum) {
     }
 }
 
-export function groundAttackPress(playerNum, direction) {
-    if (playerNum == 1) {
+export function groundAttackPress(playerNum) {
+    if (playerNum == PLAYERS.PLAYER_ONE) {
         return isKeyDown('KeyF')
     }
     else {
