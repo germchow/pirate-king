@@ -18,6 +18,7 @@ export class Game {
         const context = canvasElement.getContext('2d')
         canvasElement.width = VIEWPORT.WIDTH
         canvasElement.height = VIEWPORT.HEIGHT
+        context.imageSmoothingEnabled = false
         return context
     }
 

@@ -3,6 +3,8 @@ export const FighterState = {
     WALK_FORWARD: 'walk_forward',
     WALK_BACKWARD: 'walk_backward',
     JUMP: 'jump',
+    GROUND_ATTACK: 'ground_attack',
+
 }
 
 export const FighterDirection = {

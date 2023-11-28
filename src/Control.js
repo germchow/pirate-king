@@ -45,3 +45,12 @@ export function upPress(playerNum) {
     }
 }
 
+export function groundAttackPress(playerNum, direction) {
+    if (playerNum == 1) {
+        return isKeyDown('KeyF')
+    }
+    else {
+        return isKeyDown('Period')
+    }
+}
+
