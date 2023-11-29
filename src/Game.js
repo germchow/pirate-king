@@ -44,8 +44,8 @@ export class Game {
         const excessTime = msPassed % this.msPerFrame
         this.msPrev = msNow - excessTime
         
-        this.draw()
         this.update()
+        this.draw()
     }
 
     start() {

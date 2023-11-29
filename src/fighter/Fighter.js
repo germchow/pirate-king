@@ -14,6 +14,7 @@ export class Character {
         this.sprites = new Image()
         this.spriteFrames = {}
         this.animations = {}
+        this.currentAnimation = {}
         this.animationFrameIndex = 0
         this.framesElapsed = 0
         this.framesHold = 10
@@ -122,24 +123,14 @@ export class Character {
     }
 
     update(otherPlayer) {
-        this.framesElapsed++
-        if (this.framesElapsed % this.framesHold == 0) {
-            this.framesElapsed == 0
-            this.animationFrameIndex++
-        }
-
         this.updateDirection(otherPlayer)
         this.states[this.currentState].updateState()
 
         this.x += this.velocity.x
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
-
-        if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
-            this.animationFrameIndex = 0
-        }
     }
 
-    drawDebug(context, hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight) {
+    drawAnchor(context) {
         context.lineWidth = 2
         context.beginPath()
         context.strokeStyle = 'green'
@@ -148,21 +139,44 @@ export class Character {
         context.moveTo(this.x, this.y - 4)
         context.lineTo(this.x, this.y + 4)
         context.stroke()
+    }
 
+    drawHurtbox(context, hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight) {
         context.beginPath()
         context.strokeStyle = 'lime'
         context.rect(hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight)
         context.stroke()
     }
 
+    drawHitBox(context, hitboxX, hitboxY, hitboxWidth, hitboxHeight) {
+        context.beginPath()
+        context.strokeStyle = 'red'
+        context.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+        context.stroke()
+    }
+
     draw(context) {
+        if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
+            this.animationFrameIndex = 0
+        }
+
         const currentAnimation = this.animations[this.direction][this.currentState]
         const [
             [x, y, width, height],
             [anchorX, anchorY],
-            [hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight]
+            [hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight],
+            [hitboxX, hitboxY, hitboxWidth, hitboxHeight],
         ] = this.spriteFrames[currentAnimation[this.animationFrameIndex]]
+
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
-        this.drawDebug(context, this.x - anchorX + hurtboxX, this.y - anchorY + hurtboxY, hurtboxWidth, hurtboxHeight)
+        this.drawAnchor(context)
+        this.drawHurtbox(context, this.x - anchorX + hurtboxX, this.y - anchorY + hurtboxY, hurtboxWidth, hurtboxHeight)
+        this.drawHitBox(context, this.x - anchorX + hitboxX, this.y - anchorY + hitboxY, hitboxWidth, hitboxHeight)
+
+        if (this.framesElapsed % this.framesHold == 0) {
+            this.framesElapsed = 0
+            this.animationFrameIndex++
+        }
+        this.framesElapsed++
     }
 }
