@@ -2,6 +2,7 @@ import { registerKeyboardEvents } from "./util/InputHandler.js";
 import { Sanji } from "./fighter/Sanji.js";
 import { Zoro } from "./fighter/Zoro.js";
 import { PLAYERS, STAGE, VIEWPORT } from "./constants/game.js";
+import { areColliding } from "./util/Collision.js";
 
 export class Game {
     constructor() {
@@ -33,6 +34,15 @@ export class Game {
         this.player2.draw(this.context)
     }
 
+    checkHits() {
+        if (areColliding(this.player1.hitbox, this.player2.hurtbox)) {
+            console.log('p1 hit p2')
+        }
+        if (areColliding(this.player2.hitbox, this.player1.hurtbox)) {
+            console.log('p2 hit p1')
+        }
+    }
+
     frame() {
         window.requestAnimationFrame(this.frame.bind(this))
 
@@ -45,6 +55,7 @@ export class Game {
         this.msPrev = msNow - excessTime
         
         this.update()
+        this.checkHits()
         this.draw()
     }
 

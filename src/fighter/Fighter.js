@@ -19,6 +19,9 @@ export class Character {
         this.framesElapsed = 0
         this.framesHold = 10
 
+        this.hitbox = []
+        this.hurtbox = []
+
         this.states = {
             [FIGHTERSTATE.IDLE]: {
                 enterState: () => {
@@ -133,7 +136,7 @@ export class Character {
     drawAnchor(context) {
         context.lineWidth = 2
         context.beginPath()
-        context.strokeStyle = 'green'
+        context.strokeStyle = 'pink'
         context.moveTo(this.x - 4, this.y)
         context.lineTo(this.x + 4, this.y)
         context.moveTo(this.x, this.y - 4)
@@ -141,17 +144,17 @@ export class Character {
         context.stroke()
     }
 
-    drawHurtbox(context, hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight) {
+    drawHurtbox(context) {
         context.beginPath()
         context.strokeStyle = 'lime'
-        context.rect(hurtboxX, hurtboxY, hurtboxWidth, hurtboxHeight)
+        context.rect(this.hurtbox.x, this.hurtbox.y, this.hurtbox.width, this.hurtbox.height)
         context.stroke()
     }
 
-    drawHitBox(context, hitboxX, hitboxY, hitboxWidth, hitboxHeight) {
+    drawHitBox(context) {
         context.beginPath()
         context.strokeStyle = 'red'
-        context.rect(hitboxX, hitboxY, hitboxWidth, hitboxHeight)
+        context.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height)
         context.stroke()
     }
 
@@ -168,10 +171,13 @@ export class Character {
             [hitboxX, hitboxY, hitboxWidth, hitboxHeight],
         ] = this.spriteFrames[currentAnimation[this.animationFrameIndex]]
 
+        this.hurtbox = {x: this.x - anchorX + hurtboxX, y: this.y - anchorY + hurtboxY, width: hurtboxWidth, height: hurtboxHeight}
+        this.hitbox = {x: this.x - anchorX + hitboxX, y: this.y - anchorY + hitboxY, width: hitboxWidth, height: hitboxHeight}
+
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
         this.drawAnchor(context)
-        this.drawHurtbox(context, this.x - anchorX + hurtboxX, this.y - anchorY + hurtboxY, hurtboxWidth, hurtboxHeight)
-        this.drawHitBox(context, this.x - anchorX + hitboxX, this.y - anchorY + hitboxY, hitboxWidth, hitboxHeight)
+        this.drawHurtbox(context)
+        this.drawHitBox(context)
 
         if (this.framesElapsed % this.framesHold == 0) {
             this.framesElapsed = 0
