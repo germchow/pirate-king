@@ -4,7 +4,6 @@ export const FIGHTERSTATE = {
     WALK_BACKWARD: 'walk_backward',
     JUMP: 'jump',
     GROUND_ATTACK: 'ground_attack',
-
 }
 
 export const FIGHTERDIRECTION = {

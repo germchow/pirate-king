@@ -7,7 +7,7 @@ export class Character {
     constructor(name, playerNumber, x, y) {
         this.name = name
         this.playerNumber = playerNumber;
-        this.health = 100
+        this.health = 150
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
@@ -19,7 +19,7 @@ export class Character {
         this.currentAnimation = {}
         this.animationFrameIndex = 0
         this.framesElapsed = 0
-        this.framesHold = 10
+        this.framesHold = 6
 
         this.hitbox = []
         this.hurtbox = []
@@ -98,7 +98,7 @@ export class Character {
                         this.changeState(FIGHTERSTATE.IDLE)
                     }
                 }
-            }
+            },
         }
         this.currentState = FIGHTERSTATE.IDLE
         
@@ -147,7 +147,7 @@ export class Character {
         if (areColliding(this.hurtbox, otherPlayer.hurtbox)) {
             if (this.x < otherPlayer.x) {
                 this.x += (Math.min(-2, (this.velocity.x + otherPlayer.velocity.x)))
-            } else {
+            } else if (this.x > otherPlayer.x) {
                 this.x += (Math.max(2, (this.velocity.x + otherPlayer.velocity.x)))
             }
             
@@ -158,8 +158,6 @@ export class Character {
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
         
         this.checkFighterOnScreen()
-
-        
     }
 
     drawDebug(context) {
@@ -202,7 +200,7 @@ export class Character {
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
         this.drawDebug(context)
 
-        if (this.framesElapsed % this.framesHold == 0) {
+        if (this.framesElapsed == this.framesHold - 1) {
             this.framesElapsed = 0
             this.animationFrameIndex++
         }

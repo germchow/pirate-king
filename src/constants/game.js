@@ -5,8 +5,8 @@ export const VIEWPORT = {
 
 export const STAGE = {
     FLOOR_Y: 200,
-    P1_START_X: 100,
-    P2_START_X: 250,
+    P1_START_X: 50,
+    P2_START_X: VIEWPORT.WIDTH - 50,
 }
 
 export const PLAYERS = {

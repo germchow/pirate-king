@@ -23,15 +23,16 @@ export class Game {
         return context
     }
 
-    update() {
-        this.player1.update(this.player2)
-        this.player2.update(this.player1)
-    }
+    drawUI(context) {
+        context.beginPath()
+        context.fillStyle = 'green'
+        context.rect(0, 10, this.player1.health, 10)
+        context.fill()
 
-    draw() {
-        this.context.drawImage(document.querySelector("img[alt='stage']"), 0, 0)
-        this.player1.draw(this.context)
-        this.player2.draw(this.context)
+        context.beginPath()
+        context.fillStyle = 'green'
+        context.rect(VIEWPORT.WIDTH - this.player2.health, 10, this.player2.health, 10)
+        context.fill()
     }
 
     checkHits() {
@@ -41,6 +42,18 @@ export class Game {
         if (areColliding(this.player2.hitbox, this.player1.hurtbox)) {
             console.log('p2 hit p1')
         }
+    }
+
+    update() {
+        this.player1.update(this.player2)
+        this.player2.update(this.player1)
+    }
+
+    draw() {
+        this.context.drawImage(document.querySelector("img[alt='stage']"), 0, 0)
+        this.player1.draw(this.context)
+        this.player2.draw(this.context)
+        this.drawUI(this.context)
     }
 
     frame() {
