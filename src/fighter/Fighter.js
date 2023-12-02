@@ -1,11 +1,13 @@
 import { backwardPress, forwardPress, groundAttackPress, upPress, } from "../util/Control.js";
 import { FIGHTERDIRECTION, FIGHTERSTATE } from "../constants/fighter.js"
-import { GRAVITY, STAGE } from "../constants/game.js"
+import { GRAVITY, STAGE, VIEWPORT } from "../constants/game.js"
+import { areColliding } from "../util/Collision.js";
 
 export class Character {
     constructor(name, playerNumber, x, y) {
         this.name = name
         this.playerNumber = playerNumber;
+        this.health = 100
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
@@ -28,14 +30,15 @@ export class Character {
                     this.velocity.x = 0
                 },
                 updateState: () => {
-                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
-                        this.changeState(FIGHTERSTATE.JUMP)
-                    }
-                    else if (backwardPress(this.playerNumber, this.direction)) {
+                    
+                    if (backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FIGHTERSTATE.WALK_BACKWARD)
                     }
                     else if (forwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FIGHTERSTATE.WALK_FORWARD)
+                    }
+                    else if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
+                        this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (groundAttackPress(this.playerNumber)) {
                         this.changeState(FIGHTERSTATE.GROUND_ATTACK)
@@ -88,6 +91,7 @@ export class Character {
             },
             [FIGHTERSTATE.GROUND_ATTACK]: {
                 enterState: () => {
+                    this.velocity.x = 0
                 },
                 updateState: () => {
                     if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
@@ -125,15 +129,40 @@ export class Character {
         }
     }
 
+    checkFighterOnScreen() {
+        if (this.x + 12 >= VIEWPORT.WIDTH) {
+            this.x = VIEWPORT.WIDTH - 12
+            this.velocity.x = 0
+        }
+        else if (this.x - 12 < 0) {
+            this.x = 12
+            this.velocity.x = 0
+        }
+    }
+
     update(otherPlayer) {
         this.updateDirection(otherPlayer)
         this.states[this.currentState].updateState()
 
-        this.x += this.velocity.x
+        if (areColliding(this.hurtbox, otherPlayer.hurtbox)) {
+            if (this.x < otherPlayer.x) {
+                this.x += (Math.min(-2, (this.velocity.x + otherPlayer.velocity.x)))
+            } else {
+                this.x += (Math.max(2, (this.velocity.x + otherPlayer.velocity.x)))
+            }
+            
+        } 
+        else {
+            this.x += this.velocity.x
+        }
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
+        
+        this.checkFighterOnScreen()
+
+        
     }
 
-    drawAnchor(context) {
+    drawDebug(context) {
         context.lineWidth = 2
         context.beginPath()
         context.strokeStyle = 'pink'
@@ -142,19 +171,15 @@ export class Character {
         context.moveTo(this.x, this.y - 4)
         context.lineTo(this.x, this.y + 4)
         context.stroke()
-    }
 
-    drawHurtbox(context) {
-        context.beginPath()
-        context.strokeStyle = 'lime'
-        context.rect(this.hurtbox.x, this.hurtbox.y, this.hurtbox.width, this.hurtbox.height)
-        context.stroke()
-    }
-
-    drawHitBox(context) {
         context.beginPath()
         context.strokeStyle = 'red'
         context.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height)
+        context.stroke()
+
+        context.beginPath()
+        context.strokeStyle = 'lime'
+        context.rect(this.hurtbox.x, this.hurtbox.y, this.hurtbox.width, this.hurtbox.height)
         context.stroke()
     }
 
@@ -175,9 +200,7 @@ export class Character {
         this.hitbox = {x: this.x - anchorX + hitboxX, y: this.y - anchorY + hitboxY, width: hitboxWidth, height: hitboxHeight}
 
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
-        this.drawAnchor(context)
-        this.drawHurtbox(context)
-        this.drawHitBox(context)
+        this.drawDebug(context)
 
         if (this.framesElapsed % this.framesHold == 0) {
             this.framesElapsed = 0
