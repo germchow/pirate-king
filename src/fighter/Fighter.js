@@ -123,20 +123,33 @@ export class Character {
         if (this.currentState != FIGHTERSTATE.JUMP && otherPlayer.currentState != FIGHTERSTATE.JUMP) {
             if (this.x < otherPlayer.x) {
                 this.direction = FIGHTERDIRECTION.RIGHT
-            } else {
+            } else if (this.x > otherPlayer.x) {
                 this.direction = FIGHTERDIRECTION.LEFT
             }
         }
     }
 
-    checkFighterOnScreen() {
-        if (this.x + 12 >= VIEWPORT.WIDTH) {
-            this.x = VIEWPORT.WIDTH - 12
-            this.velocity.x = 0
+    applyPush(otherPlayer) {
+        if (this.direction == FIGHTERDIRECTION.RIGHT) {
+            if (this.x <= otherPlayer.x) {
+                this.x += (Math.min(-6, this.velocity.x + otherPlayer.velocity.x) / 2)
+            } else if (this.x > otherPlayer.x) {
+                this.x += (Math.max(6, this.velocity.x + otherPlayer.velocity.x)/ 2)
+            }
+        } else {
+            if (this.x < otherPlayer.x) {
+                this.x += (Math.min(-6, this.velocity.x + otherPlayer.velocity.x) / 2)
+            } else if (this.x >= otherPlayer.x) {
+                this.x += (Math.max(6, this.velocity.x + otherPlayer.velocity.x) / 2)
+            }
         }
-        else if (this.x - 12 < 0) {
+    }
+
+    keepFighterOnScreen() {
+        if (this.x >= VIEWPORT.WIDTH - 12) {
+            this.x = VIEWPORT.WIDTH - 12
+        } else if (this.x <= 12) {
             this.x = 12
-            this.velocity.x = 0
         }
     }
 
@@ -144,20 +157,18 @@ export class Character {
         this.updateDirection(otherPlayer)
         this.states[this.currentState].updateState()
 
+        
+
         if (areColliding(this.hurtbox, otherPlayer.hurtbox)) {
-            if (this.x < otherPlayer.x) {
-                this.x += (Math.min(-2, (this.velocity.x + otherPlayer.velocity.x)))
-            } else if (this.x > otherPlayer.x) {
-                this.x += (Math.max(2, (this.velocity.x + otherPlayer.velocity.x)))
-            }
-            
-        } 
-        else {
-            this.x += this.velocity.x
+            this.applyPush(otherPlayer)
         }
+
+        this.x += this.velocity.x
+        this.keepFighterOnScreen()
+        
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
         
-        this.checkFighterOnScreen()
+        
     }
 
     drawDebug(context) {
