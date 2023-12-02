@@ -12,6 +12,7 @@ export class Game {
 
         this.msPrev = window.performance.now()
         this.msPerFrame = 1000 / 60
+        this.running = true
     }
 
     setContext() {
@@ -24,23 +25,21 @@ export class Game {
     }
 
     drawUI(context) {
+        // Player 1 health bar
         context.beginPath()
         context.fillStyle = 'green'
         context.rect(0, 10, this.player1.health, 10)
         context.fill()
 
+        // Player 2 health bar
         context.beginPath()
         context.fillStyle = 'green'
         context.rect(VIEWPORT.WIDTH - this.player2.health, 10, this.player2.health, 10)
         context.fill()
-    }
 
-    checkHits() {
-        if (areColliding(this.player1.hitbox, this.player2.hurtbox)) {
-            console.log('p1 hit p2')
-        }
-        if (areColliding(this.player2.hitbox, this.player1.hurtbox)) {
-            console.log('p2 hit p1')
+        if (this.player1.health == 0 || this.player2.health == 0) {
+            this.context.drawImage(document.querySelector("img[alt='game_over']"), 0, 0)
+            this.running = false
         }
     }
 
@@ -57,7 +56,9 @@ export class Game {
     }
 
     frame() {
-        window.requestAnimationFrame(this.frame.bind(this))
+        if (this.running) {
+            window.requestAnimationFrame(this.frame.bind(this))
+        }
 
         const msNow = window.performance.now()
         const msPassed = msNow - this.msPrev
@@ -68,7 +69,6 @@ export class Game {
         this.msPrev = msNow - excessTime
         
         this.update()
-        this.checkHits()
         this.draw()
     }
 

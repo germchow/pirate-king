@@ -29,9 +29,11 @@ export class Character {
                 enterState: () => {
                     this.velocity.x = 0
                 },
-                updateState: () => {
-                    
-                    if (backwardPress(this.playerNumber, this.direction)) {
+                updateState: (otherPlayer) => {
+                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
+                        this.changeState(FIGHTERSTATE.FLINCH)
+                    }
+                    else if (backwardPress(this.playerNumber, this.direction)) {
                         this.changeState(FIGHTERSTATE.WALK_BACKWARD)
                     }
                     else if (forwardPress(this.playerNumber, this.direction)) {
@@ -49,8 +51,11 @@ export class Character {
                 enterState: () => {
                     this.velocity.x = this.correctVelocityDirection(2)
                 },
-                updateState: () => {
-                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
+                updateState: (otherPlayer) => {
+                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
+                        this.changeState(FIGHTERSTATE.FLINCH)
+                    }
+                    else if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (!forwardPress(this.playerNumber, this.direction)) {
@@ -65,8 +70,11 @@ export class Character {
                 enterState: () => {
                     this.velocity.x = this.correctVelocityDirection(-2)
                 },
-                updateState: () => {
-                    if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
+                updateState: (otherPlayer) => {
+                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
+                        this.changeState(FIGHTERSTATE.FLINCH)
+                    }
+                    else if (upPress(this.playerNumber) || this.y < STAGE.FLOOR_Y) {
                         this.changeState(FIGHTERSTATE.JUMP)
                     }
                     else if (!backwardPress(this.playerNumber, this.direction)) {
@@ -82,8 +90,11 @@ export class Character {
                     this.y -= 1
                     this.velocity.y = -12
                 },
-                updateState: () => {
-                    if (this.y >= STAGE.FLOOR_Y) {
+                updateState: (otherPlayer) => {
+                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
+                        this.changeState(FIGHTERSTATE.FLINCH)
+                    }
+                    else if (this.y >= STAGE.FLOOR_Y) {
                         this.changeState(FIGHTERSTATE.IDLE)
                     }
                     this.velocity.y += GRAVITY
@@ -93,12 +104,26 @@ export class Character {
                 enterState: () => {
                     this.velocity.x = 0
                 },
-                updateState: () => {
-                    if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
+                updateState: (otherPlayer) => {
+                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
+                        this.changeState(FIGHTERSTATE.FLINCH)
+                    }
+                    else if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
                         this.changeState(FIGHTERSTATE.IDLE)
                     }
                 }
             },
+            [FIGHTERSTATE.FLINCH]: {
+                enterState: () => {
+                    console.log(this.name, 'hit')
+                    this.health -= 10
+                },
+                updateState: (otherPlayer) => {
+                    if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
+                        this.changeState(FIGHTERSTATE.IDLE)
+                    }
+                }
+            }
         }
         this.currentState = FIGHTERSTATE.IDLE
         
@@ -155,9 +180,7 @@ export class Character {
 
     update(otherPlayer) {
         this.updateDirection(otherPlayer)
-        this.states[this.currentState].updateState()
-
-        
+        this.states[this.currentState].updateState(otherPlayer)
 
         if (areColliding(this.hurtbox, otherPlayer.hurtbox)) {
             this.applyPush(otherPlayer)
@@ -165,10 +188,7 @@ export class Character {
 
         this.x += this.velocity.x
         this.keepFighterOnScreen()
-        
         this.y = Math.min(this.y + this.velocity.y, STAGE.FLOOR_Y)
-        
-        
     }
 
     drawDebug(context) {
