@@ -27,14 +27,16 @@ export class Game {
     drawUI(context) {
         // Player 1 health bar
         context.beginPath()
+        context.strokeStyle = 'lime'
         context.fillStyle = 'green'
         context.rect(0, 10, this.player1.health, 10)
+        context.stroke()
         context.fill()
 
         // Player 2 health bar
         context.beginPath()
-        context.fillStyle = 'green'
         context.rect(VIEWPORT.WIDTH - this.player2.health, 10, this.player2.health, 10)
+        context.stroke()
         context.fill()
 
         if (this.player1.health == 0 || this.player2.health == 0) {

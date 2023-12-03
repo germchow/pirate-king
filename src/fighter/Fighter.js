@@ -115,8 +115,10 @@ export class Character {
             },
             [FIGHTERSTATE.FLINCH]: {
                 enterState: () => {
-                    console.log(this.name, 'hit')
                     this.health -= 10
+                    if (this.currentState != FIGHTERSTATE.JUMP) {
+                        this.velocity.x = 0
+                    }
                 },
                 updateState: (otherPlayer) => {
                     if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
