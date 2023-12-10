@@ -19,7 +19,7 @@ export class Character {
         this.currentAnimation = {}
         this.animationFrameIndex = 0
         this.framesElapsed = 0
-        this.framesHold = 6
+        this.framesHold = 8
 
         this.hitbox = []
         this.hurtbox = []
@@ -91,10 +91,7 @@ export class Character {
                     this.velocity.y = -12
                 },
                 updateState: (otherPlayer) => {
-                    if (areColliding(this.hurtbox, otherPlayer.hitbox)) {
-                        this.changeState(FIGHTERSTATE.FLINCH)
-                    }
-                    else if (this.y >= STAGE.FLOOR_Y) {
+                    if (this.y >= STAGE.FLOOR_Y) {
                         this.changeState(FIGHTERSTATE.IDLE)
                     }
                     this.velocity.y += GRAVITY
@@ -116,9 +113,7 @@ export class Character {
             [FIGHTERSTATE.FLINCH]: {
                 enterState: () => {
                     this.health -= 10
-                    if (this.currentState != FIGHTERSTATE.JUMP) {
-                        this.velocity.x = 0
-                    }
+                    this.velocity.x = 0
                 },
                 updateState: (otherPlayer) => {
                     if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
@@ -147,7 +142,7 @@ export class Character {
     }
 
     updateDirection(otherPlayer) {
-        if (this.currentState != FIGHTERSTATE.JUMP && otherPlayer.currentState != FIGHTERSTATE.JUMP) {
+        if (this.currentState != FIGHTERSTATE.JUMP) {
             if (this.x < otherPlayer.x) {
                 this.direction = FIGHTERDIRECTION.RIGHT
             } else if (this.x > otherPlayer.x) {

@@ -47,16 +47,16 @@ export class Zoro extends Character {
         this.animations = {
             [FIGHTERDIRECTION.RIGHT]: {
                 [FIGHTERSTATE.IDLE]: ['right_fwalk_1'],
-                [FIGHTERSTATE.WALK_FORWARD]: ['right_fwalk_1', 'right_fwalk_2', 'right_fwalk_3', 'right_fwalk_4', 'right_fwalk_5'],
-                [FIGHTERSTATE.WALK_BACKWARD]: ['right_fwalk_5', 'right_fwalk_4', 'right_fwalk_3', 'right_fwalk_2', 'right_fwalk_1'],
+                [FIGHTERSTATE.WALK_FORWARD]: ['right_fwalk_2', 'right_fwalk_3', 'right_fwalk_4', 'right_fwalk_5'],
+                [FIGHTERSTATE.WALK_BACKWARD]: ['right_fwalk_5', 'right_fwalk_4', 'right_fwalk_3', 'right_fwalk_2'],
                 [FIGHTERSTATE.JUMP]: ['right_jump_1', 'right_jump_2', 'right_jump_3', 'right_jump_4'],
                 [FIGHTERSTATE.GROUND_ATTACK]: ['right_ground_1', 'right_ground_2', 'right_ground_3', 'right_ground_4', 'right_ground_5'],
                 [FIGHTERSTATE.FLINCH]: ['right_flinch', 'right_flinch']
             },
             [FIGHTERDIRECTION.LEFT]: {
                 [FIGHTERSTATE.IDLE]: ['left_fwalk_1'],
-                [FIGHTERSTATE.WALK_FORWARD]: ['left_fwalk_1', 'left_fwalk_2', 'left_fwalk_3', 'left_fwalk_4', 'left_fwalk_5'],
-                [FIGHTERSTATE.WALK_BACKWARD]: ['left_fwalk_5', 'left_fwalk_4', 'left_fwalk_3', 'left_fwalk_2', 'left_fwalk_1'],
+                [FIGHTERSTATE.WALK_FORWARD]: ['left_fwalk_2', 'left_fwalk_3', 'left_fwalk_4', 'left_fwalk_5'],
+                [FIGHTERSTATE.WALK_BACKWARD]: ['left_fwalk_5', 'left_fwalk_4', 'left_fwalk_3', 'left_fwalk_2'],
                 [FIGHTERSTATE.JUMP]: ['left_jump_1', 'left_jump_2', 'left_jump_3', 'left_jump_4'],
                 [FIGHTERSTATE.GROUND_ATTACK]: ['left_ground_1', 'left_ground_2', 'left_ground_3', 'left_ground_4', 'left_ground_5'],
                 [FIGHTERSTATE.FLINCH]: ['left_flinch', 'left_flinch']
