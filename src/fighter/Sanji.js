@@ -4,7 +4,8 @@ import { Character } from "./Fighter.js";
 export class Sanji extends Character {
     constructor(playerNumber, x, y) {
         super("Sanji", playerNumber, x, y)
-        this.sprites = document.querySelector("img[alt='sanji']")
+        this.splash = document.querySelector("img[alt='sanji_splash']")
+        this.sprites = document.querySelector("img[alt='sanji_sprites']")
         this.spriteFrames = {
             'right_fwalk_1': [[0, 0, 59, 90], [29, 90], [17, 10, 23, 75], [0, 0, 0, 0]],
             'right_fwalk_2': [[59, 0, 59, 90], [29, 90], [17, 10, 23, 75], [0, 0, 0, 0]],

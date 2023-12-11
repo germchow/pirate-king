@@ -7,12 +7,13 @@ export class Character {
     constructor(name, playerNumber, x, y) {
         this.name = name
         this.playerNumber = playerNumber;
-        this.health = 150
+        this.health = 100
         this.x = x
         this.y = y
         this.velocity = {x: 0, y: 0}
         this.direction = FIGHTERDIRECTION.RIGHT
 
+        this.splash = new Image()
         this.sprites = new Image()
         this.spriteFrames = {}
         this.animations = {}
@@ -226,8 +227,7 @@ export class Character {
         this.hitbox = {x: this.x - anchorX + hitboxX, y: this.y - anchorY + hitboxY, width: hitboxWidth, height: hitboxHeight}
 
         context.drawImage(this.sprites, x, y, width, height, this.x - anchorX, this.y - anchorY, width, height)
-        this.drawDebug(context)
-
+        
         if (this.framesElapsed == this.framesHold - 1) {
             this.framesElapsed = 0
             this.animationFrameIndex++

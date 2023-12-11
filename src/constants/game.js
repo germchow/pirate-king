@@ -4,7 +4,7 @@ export const VIEWPORT = {
 }
 
 export const STAGE = {
-    FLOOR_Y: 200,
+    FLOOR_Y: 210,
     P1_START_X: 50,
     P2_START_X: VIEWPORT.WIDTH - 50,
 }

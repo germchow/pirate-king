@@ -25,6 +25,17 @@ export class Game {
     }
 
     drawUI(context) {
+        if (this.player1.health == 0) {
+            this.context.drawImage(this.player2.splash, 0, 0)
+            this.context.drawImage(document.querySelector("img[alt='game_over']"), 0, 0)
+            this.running = false
+        }
+        else if (this.player2.health == 0) {
+            this.context.drawImage(this.player1.splash, 0, 0)
+            this.context.drawImage(document.querySelector("img[alt='game_over']"), 0, 0)
+            this.running = false
+        }
+
         // Player 1 health bar
         context.beginPath()
         context.strokeStyle = 'lime'
@@ -38,11 +49,6 @@ export class Game {
         context.rect(VIEWPORT.WIDTH - this.player2.health, 10, this.player2.health, 10)
         context.stroke()
         context.fill()
-
-        if (this.player1.health == 0 || this.player2.health == 0) {
-            this.context.drawImage(document.querySelector("img[alt='game_over']"), 0, 0)
-            this.running = false
-        }
     }
 
     update() {
