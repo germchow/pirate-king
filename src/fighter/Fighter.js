@@ -95,6 +95,9 @@ export class Character {
                     if (this.y >= STAGE.FLOOR_Y) {
                         this.changeState(FIGHTERSTATE.IDLE)
                     }
+                    else if (groundAttackPress(this.playerNumber)) {
+                        this.changeState(FIGHTERSTATE.JUMP_ATTACK)
+                    } 
                     this.velocity.y += GRAVITY
                 }
             },
@@ -114,6 +117,32 @@ export class Character {
             [FIGHTERSTATE.FLINCH]: {
                 enterState: () => {
                     this.health -= 10
+                    this.velocity.x = 0
+                },
+                updateState: (otherPlayer) => {
+                    if (this.animationFrameIndex == this.animations[this.direction][this.currentState].length) {
+                        this.changeState(FIGHTERSTATE.IDLE)
+                    }
+                }
+            },
+            [FIGHTERSTATE.JUMP_ATTACK]: {
+                enterState: () => {
+                    
+                },
+                updateState: (otherPlayer) => {
+                    if (this.y >= STAGE.FLOOR_Y) {
+                        if (this.animationFrameIndex == 1) { // remove magic values later
+                            this.changeState(FIGHTERSTATE.LAND)
+                        } 
+                        else {
+                            this.changeState(FIGHTERSTATE.IDLE)
+                        }
+                    }
+                    this.velocity.y += GRAVITY
+                }
+            },
+            [FIGHTERSTATE.LAND]: {
+                enterState: () => {
                     this.velocity.x = 0
                 },
                 updateState: (otherPlayer) => {

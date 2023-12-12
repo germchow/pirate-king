@@ -44,6 +44,22 @@ export class Sanji extends Character {
             'right_flinch': [[0, 546, 59, 90], [29, 90], [0, 0, 0, 0], [0, 0, 0, 0]],
 
             'left_flinch': [[0, 637, 59, 90], [29, 90], [17, 10, 23, 75], [0, 0, 0, 0]],
+
+            'right_jump_attack_1': [[0, 728, 89, 120], [29, 90], [19, 17, 18, 64], [0, 0, 0, 0]],
+            'right_jump_attack_2': [[89, 728, 89, 120], [29, 90], [12, 21, 28, 60], [0, 0, 0, 0]],
+            'right_jump_attack_3': [[178, 728, 89, 120], [29, 90], [16, 23, 25, 60], [44, 38, 42, 18]],
+            'right_jump_attack_4': [[267, 728, 89, 120], [29, 90], [14, 26, 24, 60], [40, 40, 48, 16]],
+            'right_jump_attack_5': [[356, 728, 89, 120], [29, 90], [12, 21, 28, 60], [0, 0, 0, 0]],
+
+            'left_jump_attack_1': [[0, 849, 89, 90], [59, 90], [52, 17, 18, 64], [0, 0, 0, 0]],
+            'left_jump_attack_2': [[89, 849, 89, 90], [59, 90], [49, 21, 28, 60], [0, 0, 0, 0]],
+            'left_jump_attack_3': [[178, 849, 89, 90], [59, 90], [48, 23, 25, 60], [3, 38, 42, 18]],
+            'left_jump_attack_4': [[267, 849, 89, 90], [59, 90], [51, 26, 24, 60], [1, 40, 48, 16]],
+            'left_jump_attack_5': [[356, 849, 89, 90], [59, 90], [49, 21, 28, 60], [0, 0, 0, 0]],
+
+            'right_land': [[0, 970, 59, 90], [29, 90], [17, 40, 23, 45], [0, 0, 0, 0]],
+
+            'left_land': [[0, 970, 59, 90], [29, 90], [17, 40, 23, 45], [0, 0, 0, 0]],
         }
         this.animations = {
             [FIGHTERDIRECTION.RIGHT]: {
@@ -52,7 +68,9 @@ export class Sanji extends Character {
                 [FIGHTERSTATE.WALK_BACKWARD]: ['right_fwalk_5', 'right_fwalk_4', 'right_fwalk_3', 'right_fwalk_2'],
                 [FIGHTERSTATE.JUMP]: ['right_jump_1', 'right_jump_2', 'right_jump_3', 'right_jump_4'],
                 [FIGHTERSTATE.GROUND_ATTACK]: ['right_ground_1', 'right_ground_2', 'right_ground_3', 'right_ground_4', 'right_ground_5'],
-                [FIGHTERSTATE.FLINCH]: ['right_flinch', 'right_flinch']
+                [FIGHTERSTATE.FLINCH]: ['right_flinch', 'right_flinch'],
+                [FIGHTERSTATE.JUMP_ATTACK]: ['right_jump_attack_1', 'right_jump_attack_2', 'right_jump_attack_3', 'right_jump_attack_4'],
+                [FIGHTERSTATE.LAND]: ['right_land', 'right_land']
             },
             [FIGHTERDIRECTION.LEFT]: {
                 [FIGHTERSTATE.IDLE]: ['left_fwalk_1'],
@@ -60,7 +78,9 @@ export class Sanji extends Character {
                 [FIGHTERSTATE.WALK_BACKWARD]: ['left_fwalk_5', 'left_fwalk_4', 'left_fwalk_3', 'left_fwalk_2'],
                 [FIGHTERSTATE.JUMP]: ['left_jump_1', 'left_jump_2', 'left_jump_3', 'left_jump_4'],
                 [FIGHTERSTATE.GROUND_ATTACK]: ['left_ground_1', 'left_ground_2', 'left_ground_3', 'left_ground_4', 'left_ground_5'],
-                [FIGHTERSTATE.FLINCH]: ['left_flinch', 'left_flinch']
+                [FIGHTERSTATE.FLINCH]: ['left_flinch', 'left_flinch'],
+                [FIGHTERSTATE.JUMP_ATTACK]: ['left_jump_attack_1', 'left_jump_attack_2', 'left_jump_attack_3', 'left_jump_attack_4'],
+                [FIGHTERSTATE.LAND]: ['left_land', 'left_land']
             }
         }
     }

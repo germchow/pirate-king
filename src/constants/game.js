@@ -14,5 +14,5 @@ export const PLAYERS = {
     PLAYER_TWO: 2,
 }
 
-export const GRAVITY = 0.75
+export const GRAVITY = 0.7
 

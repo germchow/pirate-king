@@ -13,6 +13,8 @@ export class Game {
         this.msPrev = window.performance.now()
         this.msPerFrame = 1000 / 60
         this.running = true
+
+        // this.debugMode = true
     }
 
     setContext() {
@@ -60,6 +62,10 @@ export class Game {
         this.context.drawImage(document.querySelector("img[alt='stage']"), 0, 0)
         this.player1.draw(this.context)
         this.player2.draw(this.context)
+        if (this.debugMode) {
+            this.player1.drawDebug(this.context)
+            this.player2.drawDebug(this.context)
+        }
         this.drawUI(this.context)
     }
 
