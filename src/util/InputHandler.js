@@ -1,4 +1,4 @@
-const heldKeys = new Set()
+export const heldKeys = new Set()
 
 export function handleKeyDown(event) {
     heldKeys.add(event.code)

@@ -57,7 +57,7 @@ export class Zoro extends Character {
 
             'right_land': [[0, 970, 59, 90], [29, 90], [17, 40, 23, 45], [0, 0, 0, 0]],
 
-            'left_land': [[0, 970, 59, 90], [29, 90], [17, 40, 23, 45], [0, 0, 0, 0]],
+            'left_land': [[0, 1061, 59, 90], [29, 90], [17, 40, 23, 45], [0, 0, 0, 0]],
         }
         this.animations = {
             [FIGHTERDIRECTION.RIGHT]: {

@@ -6,6 +6,7 @@ import { areColliding } from "../util/Collision.js";
 export class Character {
     constructor(name, playerNumber, x, y) {
         this.name = name
+        // console.log('constructed', name)
         this.playerNumber = playerNumber;
         this.health = 100
         this.x = x

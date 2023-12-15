@@ -1,29 +1,20 @@
-import { registerKeyboardEvents } from "./util/InputHandler.js";
-import { Sanji } from "./fighter/Sanji.js";
-import { Zoro } from "./fighter/Zoro.js";
-import { PLAYERS, STAGE, VIEWPORT } from "./constants/game.js";
-import { areColliding } from "./util/Collision.js";
+import { Sanji } from "../fighter/Sanji.js";
+import { Zoro } from "../fighter/Zoro.js";
+import { PLAYERS, STAGE, VIEWPORT } from "../constants/game.js";
+import { GameState } from "./GameState.js";
 
-export class Game {
-    constructor() {
-        this.context = this.setContext()
+export class FightState extends GameState {
+    constructor(game) {
+        console.log("fightstate constructed")
+        super(game)
         this.player1 = new Zoro(PLAYERS.PLAYER_ONE, STAGE.P1_START_X, STAGE.FLOOR_Y)
         this.player2 = new Sanji(PLAYERS.PLAYER_TWO, STAGE.P2_START_X, STAGE.FLOOR_Y)
 
         this.msPrev = window.performance.now()
         this.msPerFrame = 1000 / 60
-        this.running = true
-
+        
         // this.debugMode = true
-    }
-
-    setContext() {
-        const canvasElement = document.querySelector('canvas')
-        const context = canvasElement.getContext('2d')
-        canvasElement.width = VIEWPORT.WIDTH
-        canvasElement.height = VIEWPORT.HEIGHT
-        context.imageSmoothingEnabled = false
-        return context
+        this.running = true
     }
 
     drawUI(context) {
@@ -86,8 +77,9 @@ export class Game {
         this.draw()
     }
 
-    start() {
-        registerKeyboardEvents()
+    enterState() {
+        console.log("fightstate entered")
+        // super.enterState()
         window.requestAnimationFrame(this.frame.bind(this))
     }
 }
