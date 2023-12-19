@@ -1,9 +1,10 @@
 import { FIGHTERDIRECTION, FIGHTERSTATE, } from "../constants/fighter.js";
+import { CHARACTERS } from "../constants/game.js";
 import { Character } from "./Fighter.js";
 
 export class Zoro extends Character {
     constructor(playerNumber, x, y) {
-        super("Zoro", playerNumber, x, y)
+        super(CHARACTERS.ZORO, playerNumber, x, y)
         this.splash = document.querySelector("img[alt='zoro_splash']")
         this.sprites = document.querySelector("img[alt='zoro_sprites']")
         this.spriteFrames = {

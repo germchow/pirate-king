@@ -10,8 +10,13 @@ export const STAGE = {
 }
 
 export const PLAYERS = {
-    PLAYER_ONE: 1,
-    PLAYER_TWO: 2,
+    PLAYER_ONE: 'p1',
+    PLAYER_TWO: 'p2',
+}
+
+export const CHARACTERS = {
+    ZORO: 'zoro',
+    SANJI: 'sanji',
 }
 
 export const GRAVITY = 0.7

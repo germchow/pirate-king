@@ -1,12 +1,13 @@
 import { VIEWPORT } from "./constants/game.js";
-import { FightState } from "./game_state/FightState.js";
 import { StartState } from "./game_state/StartState.js";
-import { registerKeyboardEvents } from "./util/InputHandler.js";
 
 
 export class Game{
     constructor() {
         this.context = this.setContext()
+        this.fighter1 = null
+        this.fighter2 = null
+        this.inputHandler = null
     }
 
     // draw() {
@@ -18,7 +19,6 @@ export class Game{
     // }
 
     start() {
-        console.log(this)
         const startState = new StartState(this)
         startState.enterState()
     }
@@ -35,7 +35,6 @@ export class Game{
 }
 
 window.onload = function() {
-    registerKeyboardEvents()
     const game = new Game()
     game.start()
 }

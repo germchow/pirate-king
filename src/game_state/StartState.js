@@ -1,10 +1,8 @@
-import { heldKeys, isKeyDown } from "../util/InputHandler.js"
-import { FightState } from "./FightState.js"
+import { CharSelectState } from "./CharSelectState.js"
 import { GameState } from "./GameState.js"
 
 export class StartState extends GameState {
     constructor(game) {
-        console.log("startstate constructed")
         super(game)
         this.running = true
     }
@@ -13,28 +11,35 @@ export class StartState extends GameState {
         this.context.drawImage(document.querySelector("img[alt='start_screen']"), 0, 0)
     }
 
-    update() {
-        console.log("startstate update")
-        if (isKeyDown('Space') || isKeyDown('Enter')) {
-            this.running = false
-            console.log("space pressed")
-            const fightState = new FightState(this.game)
-            fightState.enterState()
-            
+    checkTransition() {
+        if (this.running == false) {
+            window.removeEventListener('keypress', this.game.inputHandler)
+            const charSelectState = new CharSelectState(this.game)
+            charSelectState.enterState()
         }
     }
 
     frame() {
-        this.update()
-        this.draw()
+        this.checkTransition()
         if (this.running) {
-            window.requestAnimationFrame(this.frame.bind(this)) // TODO: debug why this cant be at the beginning
+            window.requestAnimationFrame(this.frame.bind(this))
+        }
+        this.draw()
+    }
+
+    handleKeyPress(event) {
+        if (event.code == "Space" || event.code == "Enter") {
+            this.running = false
         }
     }
 
+    registerEventListener(eventListener) {
+        this.game.inputHandler = eventListener
+        window.addEventListener('keypress', this.game.inputHandler)
+    }
+
     enterState() {
-        console.log("startstate entered")
-        // super.enterState()
+        this.registerEventListener(this.handleKeyPress.bind(this))
         window.requestAnimationFrame(this.frame.bind(this))
     }
 }

@@ -1,4 +1,4 @@
-import { backwardPress, forwardPress, groundAttackPress, upPress, } from "../util/Control.js";
+import { backwardPress, forwardPress, groundAttackPress, upPress, } from "../util/FighterControl.js";
 import { FIGHTERDIRECTION, FIGHTERSTATE } from "../constants/fighter.js"
 import { GRAVITY, STAGE, VIEWPORT } from "../constants/game.js"
 import { areColliding } from "../util/Collision.js";
@@ -6,7 +6,6 @@ import { areColliding } from "../util/Collision.js";
 export class Character {
     constructor(name, playerNumber, x, y) {
         this.name = name
-        // console.log('constructed', name)
         this.playerNumber = playerNumber;
         this.health = 100
         this.x = x

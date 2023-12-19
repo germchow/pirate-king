@@ -1,9 +1,10 @@
 import { FIGHTERDIRECTION, FIGHTERSTATE, } from "../constants/fighter.js";
+import { CHARACTERS } from "../constants/game.js";
 import { Character } from "./Fighter.js";
 
 export class Sanji extends Character {
     constructor(playerNumber, x, y) {
-        super("Sanji", playerNumber, x, y)
+        super(CHARACTERS.SANJI, playerNumber, x, y)
         this.splash = document.querySelector("img[alt='sanji_splash']")
         this.sprites = document.querySelector("img[alt='sanji_sprites']")
         this.spriteFrames = {
