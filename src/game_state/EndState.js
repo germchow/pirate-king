@@ -7,8 +7,12 @@ export class EndState extends GameState {
     }
 
     draw() {
+        if (this.game.fighter1.health == 0) {
+            this.context.drawImage(document.querySelector(`img[alt='${this.game.fighter2.name}_splash']`), 0, 0)
+        } else {
+            this.context.drawImage(document.querySelector(`img[alt='${this.game.fighter1.name}_splash']`), 0, 0)
+        }
         this.context.drawImage(document.querySelector(`img[alt='game_over']`), 0, 0)
-
     }
 
     checkTransition() {
