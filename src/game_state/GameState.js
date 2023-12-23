@@ -5,19 +5,15 @@ export class GameState {
     }
 
     enterState() {
-        // this.game.gameStateStack.push(self)
-        // console.log('enterState done')
+
     }
 
     exitState() {
-        // this.game.gameStateStack.pop()
     }
 
     draw() {
-        //pass
     }
 
     update() {
-        //pass
     }
 }

@@ -96,7 +96,6 @@ export class CharSelectState extends GameState {
                 this.game.fighter1 = this.getFighterByName(this.currentPlayerSelecting, this.characters[this.currentCharacterIndex])
                 this.currentPlayerSelecting = PLAYERS.PLAYER_TWO
                 this.currentCharacterIndex = (this.currentCharacterIndex + 1) % this.characters.length
-                console.log(this.game.fighter1.name)
             }
             if (event.code == "KeyA") {
                 this.currentCharacterIndex = this.currentCharacterIndex - 1
@@ -111,7 +110,6 @@ export class CharSelectState extends GameState {
         if (this.currentPlayerSelecting == PLAYERS.PLAYER_TWO) {
             if (event.code == "Period") {
                 this.game.fighter2 = this.getFighterByName(this.currentPlayerSelecting, this.characters[this.currentCharacterIndex])
-                console.log(this.game.fighter2.name)
             }
             if (event.code == "ArrowLeft") {
                 this.currentCharacterIndex = this.currentCharacterIndex - 1

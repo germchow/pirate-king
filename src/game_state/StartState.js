@@ -12,7 +12,7 @@ export class StartState extends GameState {
 
         this.animationFrameIndex = 0
         this.framesElapsed = 0
-        this.framesHold = 18
+        this.framesHold = 24
 
         this.image = document.querySelector("img[alt='start_screen']")
         this.frames = [
@@ -20,7 +20,7 @@ export class StartState extends GameState {
             [0, 224, 384, 224],
             [0, 448, 384, 224],
             [0, 672, 384, 224],
-            [0, 896, 384, 224],
+            // [0, 896, 384, 224],
         ]
     }
 
