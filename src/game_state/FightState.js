@@ -8,7 +8,7 @@ export class FightState extends GameState {
         super(game)
 
         this.msPrev = window.performance.now()
-        this.msPerFrame = 1000 / 60 * 5
+        this.msPerFrame = 1000 / 60
         
         this.debugMode = true
         this.running = true

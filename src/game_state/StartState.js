@@ -1,3 +1,4 @@
+import { VIEWPORT } from "../constants/game.js"
 import { CharSelectState } from "./CharSelectState.js"
 import { GameState } from "./GameState.js"
 
@@ -5,10 +6,42 @@ export class StartState extends GameState {
     constructor(game) {
         super(game)
         this.running = true
+
+        this.msPrev = window.performance.now()
+        this.msPerFrame = 1000 / 60
+
+        this.animationFrameIndex = 0
+        this.framesElapsed = 0
+        this.framesHold = 18
+
+        this.image = document.querySelector("img[alt='start_screen']")
+        this.frames = [
+            [0, 0, 384, 224], 
+            [0, 224, 384, 224],
+            [0, 448, 384, 224],
+            [0, 672, 384, 224],
+            [0, 896, 384, 224],
+        ]
+    }
+
+    update() {
+        
     }
 
     draw() {
-        this.context.drawImage(document.querySelector("img[alt='start_screen']"), 0, 0)
+        if (this.animationFrameIndex == this.frames.length) {
+            this.animationFrameIndex = 0
+        }
+
+        const [x, y, width, height] = this.frames[this.animationFrameIndex]
+
+        this.context.drawImage(this.image, x, y, width, height, 0, 0, VIEWPORT.WIDTH, VIEWPORT.HEIGHT)
+
+        if (this.framesElapsed == this.framesHold - 1) {
+            this.framesElapsed = 0
+            this.animationFrameIndex++
+        }
+        this.framesElapsed++
     }
 
     checkTransition() {
@@ -24,6 +57,16 @@ export class StartState extends GameState {
         if (this.running) {
             window.requestAnimationFrame(this.frame.bind(this))
         }
+
+        const msNow = window.performance.now()
+        const msPassed = msNow - this.msPrev
+
+        if (msPassed < this.msPerFrame) return
+
+        const excessTime = msPassed % this.msPerFrame
+        this.msPrev = msNow - excessTime
+        
+        this.update()
         this.draw()
     }
 
