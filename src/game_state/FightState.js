@@ -10,7 +10,7 @@ export class FightState extends GameState {
         this.msPrev = window.performance.now()
         this.msPerFrame = 1000 / 60
         
-        this.debugMode = true
+        this.debugMode = false
         this.running = true
     }
 
@@ -75,6 +75,17 @@ export class FightState extends GameState {
 
     enterState() {
         registerFighterControls()
+
+        var checkbox = document.querySelector("input[id=debug]")
+        var self = this
+        checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            self.debugMode = true
+        } else {
+            self.debugMode = false
+        }
+        })
+
         window.requestAnimationFrame(this.frame.bind(this))
     }
 }
