@@ -77,6 +77,11 @@ export class FightState extends GameState {
         registerFighterControls()
 
         var checkbox = document.querySelector("input[id=debug]")
+        if (checkbox.checked) {
+            this.debugMode = true
+        } else {
+            this.debugMode = false
+        }
         var self = this
         checkbox.addEventListener('change', function() {
         if (this.checked) {
