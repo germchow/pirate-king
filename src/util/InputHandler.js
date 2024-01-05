@@ -1,5 +1,9 @@
 export const heldKeys = new Set()
 
+export function emptyKeys() {
+    heldKeys.clear()
+}
+
 export function isKeyDown(code) {
     return heldKeys.has(code)
 }

@@ -1,12 +1,12 @@
 import { VIEWPORT } from "../constants/game.js";
 import { GameState } from "./GameState.js";
 import { EndState } from "./EndState.js";
-import { registerFighterControls, unregisterFighterControls } from "../util/InputHandler.js";
+import { emptyKeys, registerFighterControls, unregisterFighterControls } from "../util/InputHandler.js";
 
 export class FightState extends GameState {
     constructor(game) {
         super(game)
-
+        emptyKeys()
         this.msPrev = window.performance.now()
         this.msPerFrame = 1000 / 60
         
