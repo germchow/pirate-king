@@ -9,6 +9,9 @@ export function isKeyUp(code) {
 }
 
 export function fightKeyDown(event) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(event.code) > -1) {
+        event.preventDefault();
+    }
     heldKeys.add(event.code)
 }
 

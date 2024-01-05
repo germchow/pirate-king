@@ -34,7 +34,13 @@ export class FightState extends GameState {
         if (this.game.fighter1.health == 0 || this.game.fighter2.health == 0) {
             unregisterFighterControls()
             this.running = false
-            const fightState = new EndState(this.game)
+
+            let splash = document.querySelector(`img[alt='${this.game.fighter2.name}_splash']`)
+            if (this.game.fighter2.health == 0) {
+                splash = document.querySelector(`img[alt='${this.game.fighter1.name}_splash']`)
+            }
+
+            const fightState = new EndState(this.game, splash)
             fightState.enterState()
         }
     }
