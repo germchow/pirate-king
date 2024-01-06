@@ -172,7 +172,7 @@ export class Character {
     }
 
     updateDirection(otherPlayer) {
-        if (this.currentState != FIGHTERSTATE.JUMP) {
+        if (![FIGHTERSTATE.JUMP, FIGHTERSTATE.JUMP_ATTACK, FIGHTERSTATE.GROUND_ATTACK].includes(this.currentState)) {
             if (this.x < otherPlayer.x) {
                 this.direction = FIGHTERDIRECTION.RIGHT
             } else if (this.x > otherPlayer.x) {
@@ -228,15 +228,17 @@ export class Character {
         context.lineTo(this.x, this.y + 4)
         context.stroke()
 
+        context.globalAlpha = 0.3;
         context.beginPath()
-        context.strokeStyle = 'red'
-        context.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height)
+        context.fillStyle = 'red'
+        context.fillRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height)
         context.stroke()
 
         context.beginPath()
-        context.strokeStyle = 'lime'
-        context.rect(this.hurtbox.x, this.hurtbox.y, this.hurtbox.width, this.hurtbox.height)
+        context.fillStyle = 'lime'
+        context.fillRect(this.hurtbox.x, this.hurtbox.y, this.hurtbox.width, this.hurtbox.height)
         context.stroke()
+        context.globalAlpha = 1.0;
     }
 
     draw(context) {
