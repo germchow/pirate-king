@@ -21,6 +21,7 @@
             background-attachment: fixed;
             font-family: 'Courier New', Courier, monospace;
             text-align: center;
+            display: grid;
         }
 
         canvas {
@@ -32,7 +33,7 @@
             margin-right: auto;
         }
 
-        img {
+        .asset {
             display: none;
             image-rendering: optimizeSpeed;
             image-rendering: -moz-crisp-edges;          /* Firefox                        */
@@ -42,6 +43,11 @@
             image-rendering: pixelated;                 /* Universal support since 2021   */
             image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
             -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+        }
+
+        .manual {
+            margin-left: auto;
+            margin-right: auto;
         }
 
         fieldset {
@@ -60,19 +66,21 @@
         </div>
     </fieldset>
     <canvas></canvas>
-    <img src="assets/start_screen.png" alt="start_screen">
-    <img src="assets/game_over.png" alt="game_over">
-    <img src="assets/stage.png" alt="stage">
+    <img class="asset" src="assets/start_screen.png" alt="start_screen">
+    <img class="asset" src="assets/game_over.png" alt="game_over">
+    <img class="asset" src="assets/stage.png" alt="stage">
 
-    <img src="assets/sprite/zoro_sheet.png" alt="zoro_sprites">
-    <img src="assets/sprite/sanji_sheet.png" alt="sanji_sprites">
-    <img src="assets/splash/zoro_splash.png" alt="zoro_splash">
-    <img src="assets/splash/sanji_splash.png" alt="sanji_splash">
+    <img class="asset" src="assets/sprite/zoro_sheet.png" alt="zoro_sprites">
+    <img class="asset" src="assets/sprite/sanji_sheet.png" alt="sanji_sprites">
+    <img class="asset" src="assets/splash/zoro_splash.png" alt="zoro_splash">
+    <img class="asset" src="assets/splash/sanji_splash.png" alt="sanji_splash">
 
-    <img src="assets/char_select/character_select.png" alt="character_select">
-    <img src="assets/char_select/p1_sanji.png" alt="p1_sanji">
-    <img src="assets/char_select/p1_zoro.png" alt="p1_zoro">
-    <img src="assets/char_select/p2_sanji.png" alt="p2_sanji">
-    <img src="assets/char_select/p2_zoro.png" alt="p2_zoro">
+    <img class="asset" src="assets/char_select/character_select.png" alt="character_select">
+    <img class="asset" src="assets/char_select/p1_sanji.png" alt="p1_sanji">
+    <img class="asset" src="assets/char_select/p1_zoro.png" alt="p1_zoro">
+    <img class="asset" src="assets/char_select/p2_sanji.png" alt="p2_sanji">
+    <img class="asset" src="assets/char_select/p2_zoro.png" alt="p2_zoro">
+
+    <img class="manual" src="assets/manual.png">
 </body>
 </html>
