@@ -92,7 +92,7 @@ export class CharSelectState extends GameState {
 
     handleKeydown(event) {
         if (this.currentPlayerSelecting == PLAYERS.PLAYER_ONE) {
-            if (event.code == "KeyF") {
+            if (event.code == "KeyG") {
                 this.game.fighter1 = this.getFighterByName(this.currentPlayerSelecting, this.characters[this.currentCharacterIndex])
                 this.currentPlayerSelecting = PLAYERS.PLAYER_TWO
                 this.currentCharacterIndex = (this.currentCharacterIndex + 1) % this.characters.length
@@ -108,7 +108,7 @@ export class CharSelectState extends GameState {
             }
         }
         if (this.currentPlayerSelecting == PLAYERS.PLAYER_TWO) {
-            if (event.code == "Period") {
+            if (event.code == "Slash") {
                 this.game.fighter2 = this.getFighterByName(this.currentPlayerSelecting, this.characters[this.currentCharacterIndex])
             }
             if (event.code == "ArrowLeft") {

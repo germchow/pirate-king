@@ -48,10 +48,10 @@ export function upPress(playerNum) {
 
 export function groundAttackPress(playerNum) {
     if (playerNum == PLAYERS.PLAYER_ONE) {
-        return isKeyDown('KeyF')
+        return isKeyDown('KeyG')
     }
     else {
-        return isKeyDown('Period')
+        return isKeyDown('Slash')
     }
 }
 
