@@ -91,6 +91,9 @@ export class CharSelectState extends GameState {
     }
 
     handleKeydown(event) {
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(event.code) > -1) {
+            event.preventDefault();
+        }
         if (this.currentPlayerSelecting == PLAYERS.PLAYER_ONE) {
             if (event.code == "KeyG") {
                 this.game.fighter1 = this.getFighterByName(this.currentPlayerSelecting, this.characters[this.currentCharacterIndex])

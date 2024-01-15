@@ -71,6 +71,9 @@ export class StartState extends GameState {
     }
 
     handleKeyPress(event) {
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(event.code) > -1) {
+            event.preventDefault();
+        }
         if (event.code == "Space" || event.code == "Enter") {
             this.running = false
         }
